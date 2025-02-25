@@ -1,0 +1,10 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=bandrolling'
+      - 'MYSQL_PASSWORD=band123'
+      - 'MYSQL_ROOT_PASSWORD=band5678'
+      - 'MYSQL_USER=band_adm'
+    ports:
+      - '3307:3306'
