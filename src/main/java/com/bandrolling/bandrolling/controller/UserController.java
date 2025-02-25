@@ -1,6 +1,7 @@
 package com.bandrolling.bandrolling.controller;
 
 import com.bandrolling.bandrolling.dto.CreateUserDto;
+import com.bandrolling.bandrolling.dto.UpdateUserDto;
 import com.bandrolling.bandrolling.entity.User;
 import com.bandrolling.bandrolling.repository.UserRepository;
 import com.bandrolling.bandrolling.service.UserService;
@@ -36,5 +37,12 @@ public class UserController {
             @RequestParam(defaultValue = "10") int size) {
         var pageable = PageRequest.of(page, size);
         return userService.listUsers(pageable);
+    }
+
+    @PostMapping("/update/{userId}")
+    public ResponseEntity<Void> updateUserById(@PathVariable("userId") String userId,
+                                               @RequestBody UpdateUserDto updateUserDto) {
+        userService.updateUserById(userId, updateUserDto);
+        return ResponseEntity.ok().build();
     }
 }

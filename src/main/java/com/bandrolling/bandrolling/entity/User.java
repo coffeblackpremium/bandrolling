@@ -18,7 +18,6 @@ public class User {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    public User() {}
     public User(String name, String email, String password, Instant createdAt, Instant updatedAt) {
         this.name = name;
         this.email = email;
@@ -26,6 +25,7 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+    public User() {}
 
     public Integer getId() {
         return id;

@@ -1,6 +1,7 @@
 package com.bandrolling.bandrolling.service;
 
 import com.bandrolling.bandrolling.dto.CreateUserDto;
+import com.bandrolling.bandrolling.dto.UpdateUserDto;
 import com.bandrolling.bandrolling.entity.User;
 import com.bandrolling.bandrolling.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -36,5 +37,23 @@ public class UserService {
 
     public Page<User> listUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    public User updateUserById(String userId, UpdateUserDto updateUserDto)  {
+        var user = userRepository.findById(Integer.parseInt(userId));
+        if (user.isPresent()) {
+            var userEntity = user.get();
+            if (updateUserDto.name() != null) {
+                userEntity.setName(updateUserDto.name());
+            }
+            if (updateUserDto.email() != null) {
+                userEntity.setEmail(updateUserDto.email());
+            }
+            if (updateUserDto.password() != null) {
+                userEntity.setPassword(updateUserDto.password());
+            }
+            return userRepository.save(userEntity);
+        }
+        throw new RuntimeException("User not found");
     }
 }
