@@ -16,8 +16,11 @@ import java.net.URI;
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody CreateUserDto createUserDto) {
