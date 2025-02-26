@@ -2,10 +2,8 @@ package com.bandrolling.bandrolling.controller;
 
 import com.bandrolling.bandrolling.dto.CreateUserDto;
 import com.bandrolling.bandrolling.dto.UpdateUserDto;
-import com.bandrolling.bandrolling.entity.User;
-import com.bandrolling.bandrolling.repository.UserRepository;
+import com.bandrolling.bandrolling.entity.user.User;
 import com.bandrolling.bandrolling.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;

@@ -2,7 +2,7 @@ package com.bandrolling.bandrolling.service;
 
 import com.bandrolling.bandrolling.dto.CreateUserDto;
 import com.bandrolling.bandrolling.dto.UpdateUserDto;
-import com.bandrolling.bandrolling.entity.User;
+import com.bandrolling.bandrolling.entity.user.User;
 import com.bandrolling.bandrolling.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
