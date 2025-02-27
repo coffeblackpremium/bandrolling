@@ -23,6 +23,14 @@ public class UserBand {
     private Instant joinedAt;
     private String role;
 
+    public UserBand(Builder builder) {
+        this.user = builder.user;
+        this.band = builder.band;
+        this.joinedAt = builder.joinedAt;
+        this.role = builder.role;
+    }
+    public UserBand(){}
+
     public Integer getId() {
         return id;
     }
@@ -61,5 +69,36 @@ public class UserBand {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public static class Builder {
+        private User user;
+        private Band band;
+        private Instant joinedAt;
+        private String role;
+
+        public Builder user(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder band(Band band) {
+            this.band = band;
+            return this;
+        }
+
+        public Builder joinedAt(Instant joinedAt) {
+            this.joinedAt = joinedAt;
+            return this;
+        }
+
+        public Builder role(String role) {
+            this.role = role;
+            return this;
+        }
+
+        public UserBand build() {
+            return new UserBand(this);
+        }
     }
 }
