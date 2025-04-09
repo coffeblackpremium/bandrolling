@@ -12,6 +12,12 @@ public class SeedDataConfig {
 
     @Bean
     public CommandLineRunner loadData(UserRepository userRepository) {
+        var ifUserExists = userRepository.count();
+        if (ifUserExists > 0) {
+            return args -> {
+                System.out.println("Database already seeded with users.");
+            };
+        }
         return args -> {
             Faker faker = new Faker();
             for (int i = 0; i < 100; i++) {

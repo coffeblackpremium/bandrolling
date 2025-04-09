@@ -3,6 +3,8 @@ package com.bandrolling.bandrolling.controller;
 import com.bandrolling.bandrolling.dto.CreateBandDto;
 import com.bandrolling.bandrolling.entity.band.Band;
 import com.bandrolling.bandrolling.service.BandService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +31,13 @@ public class BandController {
     public ResponseEntity<Band> getBandById(@PathVariable("bandId") String bandId) {
         var band = bandService.getBandById(bandId);
         return ResponseEntity.ok(band);
+    }
+
+    @GetMapping("/all")
+    public Page<Band> listBands(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        var pageable = PageRequest.of(page, size);
+        return bandService.getAllBands(pageable);
     }
 }
