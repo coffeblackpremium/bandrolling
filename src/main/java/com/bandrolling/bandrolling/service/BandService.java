@@ -1,6 +1,7 @@
 package com.bandrolling.bandrolling.service;
 
 import com.bandrolling.bandrolling.dto.AddUserToBand;
+import com.bandrolling.bandrolling.dto.BandResponseDto;
 import com.bandrolling.bandrolling.dto.CreateBandDto;
 import com.bandrolling.bandrolling.entity.UserBand;
 import com.bandrolling.bandrolling.entity.band.Band;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class BandService {
@@ -42,9 +44,25 @@ public class BandService {
         }
     }
 
-    public Band getBandById(String bandId) {
-        return bandRepository.findById(Integer.parseInt(bandId))
+    public BandResponseDto getBandById(String bandId) {
+        Band band = bandRepository.findById(Integer.parseInt(bandId))
                 .orElseThrow(() -> new RuntimeException("Band not found"));
+
+        List<UserBand> members = userBandRepository.findAllByBandId(band.getId());
+
+        List<BandResponseDto.MemberDto> memberDtos = members.stream()
+                .map(member -> new BandResponseDto.MemberDto(
+                        member.getUser().getId(),
+                        member.getUser().getName(),
+                        member.getRole()
+                )).toList();
+
+        BandResponseDto response = new BandResponseDto();
+        response.setId(band.getId());
+        response.setName(band.getName());
+        response.setMembers(memberDtos);
+
+        return response;
     }
 
     public UserBand addMemberToBand(AddUserToBand addUserToBand) {
@@ -57,10 +75,31 @@ public class BandService {
                 .band(band)
                 .joinedAt(Instant.now())
                 .role(addUserToBand.role()).build();
+
+
+
         return userBandRepository.save(userBand);
     }
 
-    public Page<Band> getAllBands(Pageable pageable) {
-        return bandRepository.findAll(pageable);
+    public Page<BandResponseDto> getAllBands(Pageable pageable) {
+        Page<Band> bands = bandRepository.findAll(pageable);
+
+        return bands.map(band -> {
+            List<UserBand> members = userBandRepository.findAllByBandId(band.getId());
+
+            List<BandResponseDto.MemberDto> memberDtos = members.stream()
+                    .map(member -> new BandResponseDto.MemberDto(
+                            member.getUser().getId(),
+                            member.getUser().getName(),
+                            member.getRole()
+                    )).toList();
+
+            BandResponseDto response = new BandResponseDto();
+            response.setId(band.getId());
+            response.setName(band.getName());
+            response.setMembers(memberDtos);
+
+            return response;
+        });
     }
 }

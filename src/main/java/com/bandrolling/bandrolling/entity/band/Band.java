@@ -1,10 +1,12 @@
 package com.bandrolling.bandrolling.entity.band;
 
 import com.bandrolling.bandrolling.entity.UserBand;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Builder;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,7 +18,9 @@ public class Band {
     private String description;
     private String genre;
     private String location;
-    private String members;
+    @OneToMany(mappedBy = "band", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<UserBand> members;
     @Column(name = "social_media")
     private String socialMedia;
     private String contact;
@@ -83,11 +87,11 @@ public class Band {
         this.location = location;
     }
 
-    public String getMembers() {
+    public List<UserBand> getMembers() {
         return members;
     }
 
-    public void setMembers(String members) {
+    public void setMembers(List<UserBand> members) {
         this.members = members;
     }
 
@@ -131,7 +135,7 @@ public class Band {
         private String description;
         private String genre;
         private String location;
-        private String members;
+        private List<UserBand> members;
         private String socialMedia;
         private String contact;
         private String image;
@@ -154,7 +158,7 @@ public class Band {
             this.location = location;
             return this;
         }
-        public Builder members(String members) {
+        public Builder members(List<UserBand> members) {
             this.members = members;
             return this;
         }

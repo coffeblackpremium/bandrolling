@@ -1,10 +1,12 @@
 package com.bandrolling.bandrolling.controller;
 
+import com.bandrolling.bandrolling.dto.BandResponseDto;
 import com.bandrolling.bandrolling.dto.CreateBandDto;
 import com.bandrolling.bandrolling.entity.band.Band;
 import com.bandrolling.bandrolling.service.BandService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,14 +29,14 @@ public class BandController {
         return ResponseEntity.created(URI.create("/v1/bands/create/" + band.getId())).body(band);
     }
 
-    @GetMapping("/{bandId}")
-    public ResponseEntity<Band> getBandById(@PathVariable("bandId") String bandId) {
+    @GetMapping(value = "/{bandId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BandResponseDto> getBandById(@PathVariable("bandId") String bandId) {
         var band = bandService.getBandById(bandId);
         return ResponseEntity.ok(band);
     }
 
     @GetMapping("/all")
-    public Page<Band> listBands(
+    public Page<BandResponseDto> listBands(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         var pageable = PageRequest.of(page, size);

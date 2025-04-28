@@ -2,9 +2,11 @@ package com.bandrolling.bandrolling.entity;
 
 import com.bandrolling.bandrolling.entity.band.Band;
 import com.bandrolling.bandrolling.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
 
 @Entity
 public class UserBand {
@@ -15,10 +17,12 @@ public class UserBand {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "band_id")
+    @JsonBackReference
     private Band band;
     private Instant joinedAt;
     private String role;

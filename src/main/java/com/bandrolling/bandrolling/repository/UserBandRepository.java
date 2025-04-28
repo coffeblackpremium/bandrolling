@@ -10,5 +10,5 @@ public interface UserBandRepository extends JpaRepository<UserBand, Integer> {
 
     Optional<UserBand> findByUserIdAndBandId(Integer userId, Integer bandId);
     List<UserBand> findByUserId(Integer userId);
-    List<UserBand> findByBandId(Integer bandId);
+    List<UserBand> findAllByBandId(Integer bandId);
 }
